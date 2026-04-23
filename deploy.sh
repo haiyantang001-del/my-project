@@ -21,13 +21,15 @@ echo "当前目录: $(pwd)"
 echo "目录内容:"
 ls -la
 
+# 使用 pnpm workspaces 安装所有依赖
+echo ""
+echo ">>> 安装所有依赖..."
+pnpm install
+
 # 后端部署
 echo ""
 echo ">>> 部署后端..."
 cd backend
-
-echo "安装后端依赖..."
-pnpm install
 
 echo "生成 Prisma 客户端..."
 npx prisma generate
@@ -39,9 +41,6 @@ pnpm build || echo "构建完成"
 echo ""
 echo ">>> 部署前端..."
 cd ../frontend
-
-echo "安装前端依赖..."
-pnpm install
 
 echo "构建前端..."
 pnpm build

@@ -1,0 +1,21 @@
+{
+  "name": "crm-system",
+  "version": "1.0.0",
+  "private": true,
+  "description": "CRM Customer Relationship Management System",
+  "workspaces": [
+    "backend",
+    "frontend"
+  ],
+  "scripts": {
+    "install:all": "pnpm install",
+    "build:backend": "pnpm --filter spec-template-backend build",
+    "build:frontend": "pnpm --filter frontend build",
+    "build": "pnpm build:backend && pnpm build:frontend",
+    "start": "pnpm --filter spec-template-backend start",
+    "dev": "pnpm --filter spec-template-backend dev"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
