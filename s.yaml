@@ -1,0 +1,42 @@
+edition: 1.0.0
+name: crm-system
+access: default
+
+vars:
+  region: cn-hangzhou
+
+services:
+  crm-backend:
+    component: fc
+    props:
+      region: ${vars.region}
+      functionName: crm-backend
+      runtime: nodejs18
+      codeUri: ./backend
+      handler: index.handler
+      timeout: 60
+      memorySize: 512
+      environmentVariables:
+        NODE_ENV: production
+        DATABASE_URL: postgresql://postgres:Tencent2025@localhost:5432/genie?schema=public
+        JWT_SECRET: crm-system-jwt-secret-key-2024
+        CORS_ORIGIN: "*"
+      triggers:
+        - name: httpTrigger
+          type: http
+          config:
+            authType: anonymous
+            methods:
+              - GET
+              - POST
+              - PUT
+              - DELETE
+
+  crm-frontend:
+    component: oss
+    props:
+      region: ${vars.region}
+      bucket: crm-frontend-${vars.region}
+      codeUri: ./frontend/dist
+      index: index.html
+      error: index.html

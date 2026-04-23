@@ -6,8 +6,8 @@
   "main": "dist/index.js",
   "scripts": {
     "dev": "tsx watch src/index.ts",
-    "build": "tsc",
-    "start": "node dist/index.js",
+    "build": "esbuild src/index.ts --bundle --platform=node --target=node20 --outfile=dist/index.cjs --format=cjs --packages=external",
+    "start": "node dist/index.cjs",
     "test": "jest",
     "prisma:generate": "prisma generate",
     "prisma:reset": "prisma migrate reset -f",
@@ -50,6 +50,7 @@
     "@types/supertest": "^6.0.2",
     "@typescript-eslint/eslint-plugin": "^8.47.0",
     "@typescript-eslint/parser": "^8.47.0",
+    "esbuild": "^0.28.0",
     "eslint": "^9.39.1",
     "globals": "^16.5.0",
     "jest": "^29.7.0",
