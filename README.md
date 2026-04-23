@@ -2,6 +2,19 @@
 
 企业级 CRM 系统，支持客户管理、商机管理、合同管理、付款跟踪等功能。
 
+## 在线访问
+
+**阿里云服务器地址**: http://101.133.152.89
+
+- 前端: http://101.133.152.89
+- 后端 API: http://101.133.152.89:3000/api
+- 健康检查: http://101.133.152.89:3000/api/health
+
+## 默认登录账号
+
+- 用户名: `admin`
+- 密码: `admin123`
+
 ## 技术栈
 
 - **前端**: React 19 + TypeScript + TailwindCSS + Vite
@@ -56,17 +69,6 @@ docker-compose up -d --build
 docker-compose logs -f
 ```
 
-### 访问地址
-
-- 前端: http://你的服务器IP
-- 后端 API: http://你的服务器IP:3000/api
-- 健康检查: http://你的服务器IP:3000/api/health
-
-### 默认管理员账号
-
-- 用户名: admin
-- 密码: admin123
-
 ## 停止服务
 
 ```bash
@@ -99,5 +101,5 @@ cp .env.example .env.production
 ├── docker-compose.yml # Docker 编排
 ├── Dockerfile         # 后端镜像
 ├── nginx.conf         # Nginx 配置
-└── deploy.sh          # 阿里云部署脚本
+└── docker-deploy.sh   # 一键部署脚本
 ```

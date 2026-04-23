@@ -1,12 +1,16 @@
 import axios, { AxiosError } from 'axios';
 
+// API 基础地址配置
+// 生产环境使用阿里云服务器地址
+const API_BASE_URL = import.meta.env.PROD 
+  ? 'http://101.133.152.89:3000/api' 
+  : '/api';
+
 /**
  * Axios instance configured for API requests
- * Uses Vite proxy to forward /api requests to http://localhost:3000
- * No need for VITE_API_BASE_URL environment variable
  */
 export const apiClient = axios.create({
-  baseURL: '/api',
+  baseURL: API_BASE_URL,
   timeout: 10000,
   headers: {
     'Content-Type': 'application/json',
