@@ -1,0 +1,179 @@
+// Prisma Schema for CRM System
+// PostgreSQL database with TypeScript ORM
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// 用户表
+model User {
+  id            String    @id @default(uuid())
+  username      String    @unique
+  password      String
+  name          String
+  email         String?
+  phone         String?
+  department    String?
+  position      String?
+  role          String    @default("user") // admin, user
+  isActive      Boolean   @default(true)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  // 关联
+  customers     Customer[]
+  opportunities Opportunity[]
+  contracts     Contract[]
+  payments      Payment[]
+  activities    Activity[]
+
+  @@map("users")
+}
+
+// 客户表
+model Customer {
+  id            String      @id @default(uuid())
+  name          String
+  phone         String?
+  email         String?
+  company       String?
+  industry      String?
+  companySize   String?
+  source        String?
+  status        String      @default("potential") // potential, following, interested, closed, dormant, lost
+  address       String?
+  notes         String?
+  ownerId       String
+  owner         User        @relation(fields: [ownerId], references: [id])
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+  deletedAt     DateTime?
+  
+  // 关联
+  opportunities Opportunity[]
+  contracts     Contract[]
+  activities    Activity[]
+
+  @@index([ownerId])
+  @@index([status])
+  @@map("customers")
+}
+
+// 商机表
+model Opportunity {
+  id                String      @id @default(uuid())
+  name              String
+  customerId        String
+  customer          Customer    @relation(fields: [customerId], references: [id])
+  stage             String      @default("initial") // initial, requirement, proposal, negotiation, contract, closed_won, closed_lost
+  probability       Int         @default(10)
+  amount            Decimal     @default(0)
+  priority          String      @default("medium") // low, medium, high
+  description       String?
+  expectedCloseDate DateTime?
+  ownerId           String
+  owner             User        @relation(fields: [ownerId], references: [id])
+  createdAt         DateTime    @default(now())
+  updatedAt         DateTime    @updatedAt
+  deletedAt         DateTime?
+
+  // 关联
+  contracts         Contract[]
+
+  @@index([customerId])
+  @@index([ownerId])
+  @@index([stage])
+  @@map("opportunities")
+}
+
+// 合同表
+model Contract {
+  id            String      @id @default(uuid())
+  contractNo    String      @unique
+  name          String
+  customerId    String
+  customer      Customer    @relation(fields: [customerId], references: [id])
+  opportunityId String?
+  opportunity   Opportunity? @relation(fields: [opportunityId], references: [id])
+  amount        Decimal     @default(0)
+  startDate     DateTime
+  endDate       DateTime?
+  status        String      @default("draft") // draft, pending, active, fulfilled, completed, terminated
+  description   String?
+  ownerId       String
+  owner         User        @relation(fields: [ownerId], references: [id])
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+  deletedAt     DateTime?
+
+  // 关联
+  payments      Payment[]
+
+  @@index([customerId])
+  @@index([ownerId])
+  @@index([status])
+  @@map("contracts")
+}
+
+// 回款表
+model Payment {
+  id            String    @id @default(uuid())
+  contractId    String
+  contract      Contract  @relation(fields: [contractId], references: [id])
+  amount        Decimal   @default(0)
+  paymentDate   DateTime  @default(now())
+  paymentMethod String?
+  referenceNo   String?
+  notes         String?
+  receivedById  String
+  receivedBy    User      @relation(fields: [receivedById], references: [id])
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  @@index([contractId])
+  @@index([receivedById])
+  @@map("payments")
+}
+
+// 业务活动表
+model Activity {
+  id                String    @id @default(uuid())
+  customerId        String
+  customer          Customer  @relation(fields: [customerId], references: [id])
+  type              String    // phone, meeting, email, visit, demo, other
+  subject           String
+  content           String?
+  nextAction        String?
+  nextFollowUpDate  DateTime?
+  createdById       String
+  createdBy         User      @relation(fields: [createdById], references: [id])
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+
+  @@index([customerId])
+  @@index([createdById])
+  @@index([type])
+  @@map("activities")
+}
+
+// 字典项表
+model DictItem {
+  id          String    @id @default(uuid())
+  category    String    // customer_source, industry, company_size, customer_status, opportunity_stage, opportunity_priority, contract_status, payment_method
+  code        String
+  label       String
+  value       String?
+  sortOrder   Int       @default(0)
+  isActive    Boolean   @default(true)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@unique([category, code])
+  @@index([category])
+  @@map("dict_items")
+}

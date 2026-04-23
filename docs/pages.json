@@ -1,0 +1,57 @@
+[
+  {
+    "pageKey": "c8dbro",
+    "title": "/",
+    "url": "/"
+  },
+  {
+    "pageKey": "a3jklz",
+    "title": "/activities",
+    "url": "/activities"
+  },
+  {
+    "pageKey": "rpw7pg",
+    "title": "/contracts",
+    "url": "/contracts"
+  },
+  {
+    "pageKey": "net7ef",
+    "title": "/customers",
+    "url": "/customers"
+  },
+  {
+    "pageKey": "11mg7k",
+    "title": "/dashboard",
+    "url": "/dashboard"
+  },
+  {
+    "pageKey": "n28r6d",
+    "title": "/login",
+    "url": "/login"
+  },
+  {
+    "pageKey": "nu67mw",
+    "title": "/opportunities",
+    "url": "/opportunities"
+  },
+  {
+    "pageKey": "efacg3",
+    "title": "/payments",
+    "url": "/payments"
+  },
+  {
+    "pageKey": "olpxe5",
+    "title": "/profile",
+    "url": "/profile"
+  },
+  {
+    "pageKey": "txqqft",
+    "title": "/settings/dict",
+    "url": "/settings/dict"
+  },
+  {
+    "pageKey": "p0owxk",
+    "title": "/settings/users",
+    "url": "/settings/users"
+  }
+]
