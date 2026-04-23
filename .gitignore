@@ -11,6 +11,8 @@ build/
 .env
 .env.local
 .env.*.local
+# Keep example file
+!.env.example
 
 # IDE
 .idea/
@@ -40,3 +42,6 @@ coverage/
 
 # Misc
 *.zip
+
+# Deployment artifacts
+crm-deploy.zip

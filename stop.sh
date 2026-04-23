@@ -1,19 +1,9 @@
 #!/bin/bash
 
-# 停止脚本
+# 停止所有服务
 
-echo ">>> 停止 CRM 系统..."
+echo ">>> 停止 CRM 系统服务..."
 
-# 停止后端
-if [ -f /var/run/crm-backend.pid ]; then
-    kill $(cat /var/run/crm-backend.pid) 2>/dev/null || true
-    rm -f /var/run/crm-backend.pid
-fi
+docker-compose down
 
-# 停止前端
-if [ -f /var/run/crm-frontend.pid ]; then
-    kill $(cat /var/run/crm-frontend.pid) 2>/dev/null || true
-    rm -f /var/run/crm-frontend.pid
-fi
-
-echo ">>> CRM 系统已停止"
+echo ">>> 服务已停止"
